@@ -46,14 +46,23 @@ class PostController extends Controller
 
     public function create()
     {
+        return 'create new posts';
     }
 
     public function store()
     {
     }
 
-    public function show()
+    public function show($postId)
     {
+        $singlePost = [
+            'id' => 5,
+            'title' => 'PHP',
+            'posted_by' => 'khaled mohamed',
+            'created_at' => '2024-10-10 09:00:00',
+        ];
+        // return 'we are in show action ' . $postId;
+        return view('posts.show')->with('post', $singlePost);
     }
 
     public function edit()

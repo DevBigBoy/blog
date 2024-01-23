@@ -33,8 +33,11 @@ Route::get('/', function () {
 
 
 
-Route::get('/posts', [PostController::class, 'index']);
+// Route::get('/posts', [PostController::class, 'index']);
 
 
 
-// Route::resource(['posts' => PostController::class]);
+// Route::resources(['/posts' => PostController::class]);
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
