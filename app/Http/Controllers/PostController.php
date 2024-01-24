@@ -44,13 +44,21 @@ class PostController extends Controller
         return view('posts.index')->with('posts', $allPosts);
     }
 
-    public function create()
+    public function create($data)
     {
-        return 'create new posts';
+        return view('posts.create');
     }
 
     public function store()
     {
+
+        // Get the user data
+        $data = request()->all();
+        $title = request()->title;
+        $title = request()->description;
+        $title = request()->post_creator;
+        // return redirect()->route('posts.index');
+        return to_route('posts.index');
     }
 
     public function show($postId)
