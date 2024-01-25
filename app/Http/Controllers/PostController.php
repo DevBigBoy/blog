@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\returnSelf;
+
 class PostController extends Controller
 {
     public function index()
@@ -75,13 +77,22 @@ class PostController extends Controller
 
     public function edit()
     {
+        return view('posts.edit');
     }
 
     public function update()
     {
+        // Get the user data
+        // dd(request()->all());
+        $data = request()->all();
+        $title = request()->title;
+        $title = request()->description;
+        $title = request()->post_creator;
+        return to_route('posts.show', parameters: 1);
     }
 
     public function destroy()
     {
+        return to_route('posts.index');
     }
 }
