@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 use function PHPUnit\Framework\returnSelf;
@@ -10,6 +11,8 @@ class PostController extends Controller
 {
     public function index()
     {
+        $posts = Post::all();
+
         $allPosts = [
             [
                 'id' => 1,
@@ -43,7 +46,7 @@ class PostController extends Controller
             ],
         ];
 
-        return view('posts.index')->with('posts', $allPosts);
+        return view('posts.index')->with('posts', $posts);
     }
 
     public function create($data)
@@ -65,6 +68,10 @@ class PostController extends Controller
 
     public function show($postId)
     {
+
+        // select * from posts where id = postId
+        // $post = Post::find($postId);
+        $post = Post::where('id', $postId)->first();
         $singlePost = [
             'id' => 5,
             'title' => 'PHP',
@@ -72,7 +79,7 @@ class PostController extends Controller
             'created_at' => '2024-10-10 09:00:00',
         ];
         // return 'we are in show action ' . $postId;
-        return view('posts.show')->with('post', $singlePost);
+        return view('posts.show')->with('post', $post);
     }
 
     public function edit()

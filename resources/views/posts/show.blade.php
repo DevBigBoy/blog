@@ -11,8 +11,8 @@
             Post Info
         </div>
         <div class="card-body">
-            <h5 class="card-title">Title: {{ $post['title'] }}</h5>
-            <p class="card-text">Description: {{ $post['title'] }}</p>
+            <h5 class="card-title">Title: {{ $post->title }}</h5>
+            <p class="card-text">Description: {{ $post->description }}</p>
         </div>
     </div>
     <div class="card mt-4">
@@ -20,9 +20,18 @@
             Post Creator info
         </div>
         <div class="card-body">
-            <h5 class="card-title">Name: {{ $post['posted_by'] }}</h5>
-            <p class="card-text">Email: {{ $post['posted_by'] }}@gmail.com</p>
-            <p class="card-text">Created At: {{ $post['created_at'] }}</p>
+            <h5 class="card-title">Name: {{ $post->created_by }}</h5>
+            <p class="card-text">Email: {{ $post->created_by }}@gmail.com</p>
+            <p class="card-text">Created At: {{ $post->created_at }}</p>
         </div>
+    </div>
+    <div class=" mt-3">
+        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning " style="display: inline">Edit</a>
+
+        <form style="display: inline" action="{{ route('posts.destroy', $post->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
     </div>
 @endsection
