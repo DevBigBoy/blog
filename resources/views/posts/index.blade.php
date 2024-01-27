@@ -25,7 +25,14 @@
                     <th scope="row">{{ $post->id }}</th>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->description }}</td>
-                    <td>{{ $post->created_by }}</td>
+                    <td>
+                        @foreach ($users as $user)
+                            @if ($user->id == $post->created_by)
+                                {{ $user->name }}
+                            @endif
+                        @endforeach
+
+                    </td>
                     <td>{{ $post->created_at }}</td>
                     <td>
                         <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">View</a>
