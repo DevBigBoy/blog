@@ -17,16 +17,12 @@
             <label for="description" class="form-label"> description</label>
             <textarea class="form-control" id="description" rows="3" name="description">{{ $post->description }}</textarea>
         </div>
-        <div class="mb-3 ">
+        <div class="mb-3">
             <label for="posted_by" class="form-label">Post Creator</label>
             <select class="form-control" name="post_creator">
 
                 @foreach ($users as $user)
-                    @if ($post->created_by == $user->id)
-                        <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
-                    @else
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endif
+                    <option @selected($post->user_id == $user->id) value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
         </div>

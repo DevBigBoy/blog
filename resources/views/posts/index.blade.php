@@ -25,15 +25,8 @@
                     <th scope="row">{{ $post->id }}</th>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->description }}</td>
-                    <td>
-                        @foreach ($users as $user)
-                            @if ($user->id == $post->created_by)
-                                {{ $user->name }}
-                            @endif
-                        @endforeach
-
-                    </td>
-                    <td>{{ $post->created_at }}</td>
+                    <td>{{ $post->user ? $post->user->name : 'not found' }}</td>
+                    <td>{{ $post->created_at->format('Y-m-d') }}</td>
                     <td>
                         <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">View</a>
                         <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning mx-3">Edit</a>

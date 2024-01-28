@@ -20,18 +20,8 @@
             Post Creator info
         </div>
         <div class="card-body">
-            <h5 class="card-title">Name:
-                @foreach ($users as $user)
-                    @if ($user->id == $post->created_by)
-                        {{ $user->name }}
-                    @endif
-                @endforeach
-            </h5>
-            <p class="card-text">Email: @foreach ($users as $user)
-                    @if ($user->id == $post->created_by)
-                        {{ $user->name }}
-                    @endif
-                @endforeach@gmail.com</p>
+            <h5 class="card-title">Name: {{ $post->user ? $post->user->name : 'not found' }} </h5>
+            <p class="card-text">Email: {{ $post->user ? $post->user->email : 'not found' }}</p>
             <p class="card-text">Created At: {{ $post->created_at }}</p>
         </div>
     </div>

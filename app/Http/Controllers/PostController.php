@@ -13,74 +13,46 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        $users = User::all();
-
-        $allPosts = [
-            [
-                'id' => 1,
-                'title' => 'PHP',
-                'posted_by' => 'SaraNour',
-                'created_at' => '2024-10-10 09:00:00',
-            ],
-            [
-                'id' => 2,
-                'title' => 'PHP',
-                'posted_by' => 'ali helmi',
-                'created_at' => '2024-10-10 09:00:00',
-            ],
-            [
-                'id' => 3,
-                'title' => 'PHP',
-                'posted_by' => 'zaied ahmed',
-                'created_at' => '2024-10-10 09:00:00',
-            ],
-            [
-                'id' => 4,
-                'title' => 'PHP',
-                'posted_by' => 'eslam afifiy',
-                'created_at' => '2024-10-10 09:00:00',
-            ],
-            [
-                'id' => 5,
-                'title' => 'PHP',
-                'posted_by' => 'khaled mohamed',
-                'created_at' => '2024-10-10 09:00:00',
-            ],
-        ];
-
-        return view('posts.index')->with('posts', $posts)->with('users', $users);
+        return view('posts.index')->with('posts', $posts);
     }
 
     public function create()
     {
         $users = User::all();
-        // Selec * From users
         return view('posts.create')->with('users', $users);
     }
 
     public function store()
     {
         // dd(request()->all());
-
         // Get the user data
+
+        // Validate data
+
+        request()->validate([
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:10'],
+            'post_creator' => ['required', 'exists:users,id'],
+        ]);
+
         $data = request()->all();
         $title = request()->title;
         $description = request()->description;
         $post_creator = request()->post_creator;
 
-        $post = new Post;
-        $post->title  = $title;
-        $post->description = $description;
-        $post->created_by = $post_creator;
+        // $post = new Post;
+        // $post->title  = $title;
+        // $post->description = $description;
+        // $post->user_id = $post_creator;
+        // $post->save();
 
-        $post->save();
-
-        // Post::create(
-        //     [
-        //         'title' => $title,
-        //         'description' => $description
-        //     ]
-        // );
+        Post::create(
+            [
+                'title' => $title,
+                'description' => $description,
+                'user_id' => $post_creator
+            ]
+        );
 
         // return redirect()->route('posts.index');
         return to_route('posts.index');
@@ -88,24 +60,17 @@ class PostController extends Controller
 
     public function show($postId)
     {
-
         // select * from posts where id = postId
         // $post = Post::find($postId);
-        $post = Post::findOrFail($postId);
-        $users = User::all();
+
         // $post = Post::where('id', $postId)->first();
-        $singlePost = [
-            'id' => 5,
-            'title' => 'PHP',
-            'posted_by' => 'khaled mohamed',
-            'created_at' => '2024-10-10 09:00:00',
-        ];
 
         // if (is_null($post)) {
         //     return to_route('posts.index');
         // }
         // return 'we are in show action ' . $postId;
-        return view('posts.show')->with('post', $post)->with('users', $users);
+        $post = Post::findOrFail($postId);
+        return view('posts.show')->with('post', $post);
     }
 
     public function edit(Post $post)
@@ -119,16 +84,21 @@ class PostController extends Controller
     {
         // Get the user data
 
+        request()->validate([
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:10'],
+            'post_creator' => ['required', 'exists:users,id'],
+        ]);
         // dd(request()->all());
         $title = request()->title;
         $description = request()->description;
-        $postCreator = request()->post_creator;
+        $post_creator = request()->post_creator;
 
         $singlePostFromDB = Post::find($postId);
         $singlePostFromDB->update([
             'title' => $title,
             'description' => $description,
-            'created_by' => $postCreator,
+            'user_id' => $post_creator
         ]);
 
         return to_route('posts.show', $postId);
